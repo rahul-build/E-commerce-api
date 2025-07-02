@@ -1,2 +1,12 @@
-node_modules
+# Ignore node dependencies
+node_modules/
+
+# Ignore environment variables
 .env
+
+# Optional: log files, build folders, OS metadata
+*.log
+dist/
+.DS_Store
+.env.local
+.env.*.local
