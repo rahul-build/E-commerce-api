@@ -149,3 +149,51 @@ export const loginController = async (req, res) => {
     });
   }
 };
+
+//profile
+
+export const getUserProfileController = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    user.password = undefined;
+
+    res.status(200).send({
+      success: true,
+      message: "User Profile fetched Successfully",
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in profile APi",
+      error,
+    });
+  }
+};
+
+//Logout
+
+export const logoutController = async (req, res) => {
+  try {
+    res
+      .status(200)
+      .cookie("token", "", {
+        expires: new Date(Date.now()),
+        secure: process.env.NODE_ENV === "development" ? true : false,
+        httpOnly: process.env.NODE_ENV === "development" ? true : false,
+        sameSite: process.env.NODE_ENV === "development" ? true : false,
+      })
+      .send({
+        success: true,
+        message: "Logout successfully",
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in Logout APi",
+      error,
+    });
+  }
+};
