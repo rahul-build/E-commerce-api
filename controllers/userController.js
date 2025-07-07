@@ -197,3 +197,95 @@ export const logoutController = async (req, res) => {
     });
   }
 };
+
+//update-profile
+// export const updateProfileController = async (req, res) => {
+//   try {
+//     const user = await userModel.findById(req.user._id);
+//     const { name, email, address, city, country, phone } = req.body;
+//     // validation + update
+//     if (name) user.name = name;
+//     if (email) user.email = email;
+//     if (address) user.address = address;
+//     if (city) user.city = city;
+//     if (country) user.country = country;
+//     if (phone) user.phone = phone;
+//     await user.save();
+//     res.status(200).send({
+//       success: true,
+//       message: "User Profile Updated",
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send({
+//       success: false,
+//       message: "Error in Logout APi",
+//       error,
+//     });
+//   }
+// };
+
+export const updateProfileController = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    const { name, email, address, city, country, phone } = req.body;
+    // validation + Update
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (address) user.address = address;
+    if (city) user.city = city;
+    if (country) user.country = country;
+    if (phone) user.phone = phone;
+    //save user
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: "User Profile Updated",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In update profile API",
+      error,
+    });
+  }
+};
+// update password
+
+export const updatePasswordController = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    const { oldpassword, newpassword } = req.body;
+    // validation
+    if (!oldpassword || !newpassword) {
+      return res.status(500).send({
+        success: false,
+        message: "Plz provide old oornew password",
+      });
+    }
+    const isMatch = await user.comparePassword(oldpassword);
+    if (!isMatch) {
+      return res.status(500).send({
+        success: false,
+        message: "Invalid old password",
+      });
+    }
+    user.password = newpassword;
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: "Password Updated Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in Logout APi",
+      error,
+    });
+  }
+};
+
+// update profile pic
+export const updateProfilePiController = () => {};

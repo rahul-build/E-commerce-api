@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: [true, "phone no is required"],
+      // required: [true, "phone no is required"],
     },
     profilePic: {
       public_id: {
@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema(
     },
     answer: {
       type: String,
-      required: [true, "answer is required"],
+      // required: [true, "answer is required"],
     },
     role: {
       type: String,
@@ -54,7 +54,8 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 // hashPassword
-userSchema.pre("save", async function () {
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
 });
 // compare function
