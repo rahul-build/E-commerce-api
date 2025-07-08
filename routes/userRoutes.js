@@ -22,6 +22,6 @@ router.get("/logout", isAuth, logoutController);
 // router.put("/profile-update", isAuth, updateProfileController);
 router.put("/profile-update", isAuth, updateProfileController);
 router.put("/update-password", isAuth, updatePasswordController);
-router.put("/update-picture", singleUpload, updateProfilePiController);
+router.put("/update-picture", isAuth, singleUpload, updateProfilePiController);
 
 export default router;
